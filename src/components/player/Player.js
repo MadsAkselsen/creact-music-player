@@ -64,9 +64,9 @@ const Player = ({
   };
 
   const previousSong = () => {
-    setAudioLoaded(false);
     for (let i = 0; i < songs.length; i++) {
       if (songs[i].id === currentSong.id && i > 0) {
+        console.log('running');
         setCurrentSong(songs[i - 1]);
         if (i === 1) {
           setFirstLastSong({ ...firstLastSong, firstSong: true });
@@ -107,7 +107,7 @@ const Player = ({
   };
 
   useEffect(() => {
-    if (audioLoaded) setAudioLoaded(false);
+    setAudioLoaded(false);
   }, [currentSong]);
 
   return (
