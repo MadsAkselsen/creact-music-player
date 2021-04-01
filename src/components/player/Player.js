@@ -98,6 +98,7 @@ const Player = ({
     if (!audioLoaded) {
       const current = e.target.currentTime;
       const duration = e.target.duration;
+      setAudioLoaded(true);
       setSongInfo({ ...songInfo, currentTime: current, duration: duration });
       if (isPlaying) {
         audioRef.current.play();
