@@ -1,4 +1,4 @@
-import React, { useRef, useState } from 'react';
+import React, { useRef, useState, useEffect } from 'react';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome';
 import {
   faPlay,
@@ -7,11 +7,24 @@ import {
   faAngleRight,
 } from '@fortawesome/free-solid-svg-icons';
 
-const Player = ({ currentSong, isPlaying, setIsPlaying, setCurrentSong }) => {
+const Player = ({
+  currentSong,
+  songs,
+  isPlaying,
+  setIsPlaying,
+  setCurrentSong,
+}) => {
   // state
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
     duration: 0,
+  });
+
+  const [audioLoaded, setAudioLoaded] = useState(false);
+
+  const [firstLastSong, setFirstLastSong] = useState({
+    firstSong: true,
+    lastSong: false,
   });
 
   const dragHandler = (e) => {
@@ -22,6 +35,9 @@ const Player = ({ currentSong, isPlaying, setIsPlaying, setCurrentSong }) => {
   const audioRef = useRef(null);
 
   const timeUpdateHandler = (e) => {
+    if (!audioLoaded) {
+      return;
+    }
     const current = e.target.currentTime;
     const duration = e.target.duration;
     setSongInfo({ ...songInfo, currentTime: current, duration: duration });
@@ -47,9 +63,51 @@ const Player = ({ currentSong, isPlaying, setIsPlaying, setCurrentSong }) => {
     }
   };
 
-  const previousSong = () => {};
+  const previousSong = () => {
+    setAudioLoaded(false);
+    for (let i = 0; i < songs.length; i++) {
+      if (songs[i].id === currentSong.id && i > 0) {
+        setCurrentSong(songs[i - 1]);
+        if (i === 1) {
+          setFirstLastSong({ ...firstLastSong, firstSong: true });
+        }
+        if (i === songs.length - 1) {
+          setFirstLastSong({ ...firstLastSong, lastSong: false });
+        }
+        return;
+      }
+    }
+  };
 
-  const NextSong = () => {};
+  const NextSong = () => {
+    for (let i = 0; i < songs.length; i++) {
+      if (songs[i].id === currentSong.id && i < songs.length - 1) {
+        setCurrentSong(songs[i + 1]);
+        if (i === songs.length - 2) {
+          setFirstLastSong({ ...firstLastSong, lastSong: true });
+        }
+        if (i === 0) {
+          setFirstLastSong({ ...firstLastSong, firstSong: false });
+        }
+        return;
+      }
+    }
+  };
+
+  const setLoaded = (e) => {
+    if (!audioLoaded) {
+      const current = e.target.currentTime;
+      const duration = e.target.duration;
+      setSongInfo({ ...songInfo, currentTime: current, duration: duration });
+      if (isPlaying) {
+        audioRef.current.play();
+      }
+    }
+  };
+
+  useEffect(() => {
+    if (audioLoaded) setAudioLoaded(false);
+  }, [currentSong]);
 
   return (
     <div className="player">
@@ -65,7 +123,12 @@ const Player = ({ currentSong, isPlaying, setIsPlaying, setCurrentSong }) => {
         <p>{formatTime(songInfo.duration)}</p>
       </div>
       <div className="play-control">
-        <FontAwesomeIcon className="skipBack" size="2x" icon={faAngleLeft} />
+        <FontAwesomeIcon
+          className={`skipBack ${firstLastSong.firstSong ? 'disabled' : ''}`}
+          size="2x"
+          icon={faAngleLeft}
+          onClick={previousSong}
+        />
         <FontAwesomeIcon
           onClick={playSongHandler}
           className="play"
@@ -73,16 +136,17 @@ const Player = ({ currentSong, isPlaying, setIsPlaying, setCurrentSong }) => {
           icon={isPlaying ? faPause : faPlay}
         />
         <FontAwesomeIcon
-          className="skipForward"
+          className={`skipForward ${firstLastSong.lastSong ? 'disabled' : ''}`}
           size="2x"
           icon={faAngleRight}
+          onClick={NextSong}
         />
       </div>
       <audio
         onTimeUpdate={timeUpdateHandler}
         ref={audioRef}
         src={currentSong.audio}
-        onLoadedData={timeUpdateHandler}
+        onLoadedData={setLoaded}
       ></audio>
     </div>
   );
