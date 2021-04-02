@@ -133,11 +133,12 @@ const Player = ({
           lastSong: false,
         });
       }
-      updateLibraryHighlight(currentSong);
+      //updateLibraryHighlight(currentSong);
     }
   };
 
   useEffect(() => {
+    updateLibraryHighlight(currentSong);
     setAudioLoaded(false);
   }, [currentSong]);
 
