@@ -83,7 +83,7 @@ const Player = ({
   const NextSong = () => {
     //* the commented code is for cycling through the songs without reaching the end.
     /* let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
-    const songIndex = (currentIndex + 1) % songs.length;
+    const songIndex = (currentIndex + 1) % songs.length; // modolus will make the number 0 when exceeding the last index and thus start over from the first song
     setCurrentSong(songs[songIndex]);
     if (currentIndex === songs.length - 2)
       setFirstLastSong({ ...firstLastSong, lastSong: true });
