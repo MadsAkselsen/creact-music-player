@@ -13,6 +13,7 @@ const Player = ({
   isPlaying,
   setIsPlaying,
   setCurrentSong,
+  updateLibraryHighlight,
 }) => {
   // state
   const [songInfo, setSongInfo] = useState({
@@ -103,6 +104,27 @@ const Player = ({
       if (isPlaying) {
         audioRef.current.play();
       }
+      // check if first, last or in between in order to color the arrows.
+      if (currentSong.id === songs[5].id) {
+        setFirstLastSong({
+          ...firstLastSong,
+          lastSong: true,
+          firstSong: false,
+        });
+      } else if (currentSong.id === songs[0].id) {
+        setFirstLastSong({
+          ...firstLastSong,
+          firstSong: true,
+          lastSong: false,
+        });
+      } else {
+        setFirstLastSong({
+          ...firstLastSong,
+          firstSong: false,
+          lastSong: false,
+        });
+      }
+      updateLibraryHighlight(currentSong);
     }
   };
 

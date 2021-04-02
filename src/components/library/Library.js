@@ -7,6 +7,7 @@ const Library = ({
   setCurrentSong,
   isPlaying,
   libraryStatus,
+  updateLibraryHighlight,
 }) => {
   return (
     <div className={`library ${libraryStatus ? 'active-library' : ''}`}>
@@ -20,6 +21,7 @@ const Library = ({
             songs={songs}
             setCurrentSong={setCurrentSong}
             isPlaying={isPlaying}
+            updateLibraryHighlight={updateLibraryHighlight}
           />
         ))}
       </div>

@@ -15,6 +15,25 @@ function App() {
   const [currentSong, setCurrentSong] = useState(songs[0]);
   const [isPlaying, setIsPlaying] = useState(false);
   const [libraryStatus, setLibraryStatus] = useState(false);
+
+  const updateLibraryHighlight = (song) => {
+    const newSongs = songs.map((state) => {
+      //console.log(state.id, song.id);
+      if (state.id === song.id) {
+        return {
+          ...state,
+          active: true,
+        };
+      } else {
+        return {
+          ...state,
+          active: false,
+        };
+      }
+    });
+    setSongs(newSongs);
+    //setCurrentSong(song, (song.active = true));
+  };
   return (
     <div className="App">
       <Nav libraryStatus={libraryStatus} setLibraryStatus={setLibraryStatus} />
@@ -25,6 +44,7 @@ function App() {
         setIsPlaying={setIsPlaying}
         currentSong={currentSong}
         setCurrentSong={setCurrentSong}
+        updateLibraryHighlight={updateLibraryHighlight}
       />
       <Library
         songs={songs}
@@ -32,6 +52,7 @@ function App() {
         isPlaying={isPlaying}
         setSongs={setSongs}
         libraryStatus={libraryStatus}
+        updateLibraryHighlight={updateLibraryHighlight}
       ></Library>
     </div>
   );

@@ -1,22 +1,15 @@
 import React from 'react';
 
-const LibrarySong = ({ song, setSongs, songs, setCurrentSong, isPlaying }) => {
+const LibrarySong = ({
+  song,
+  setSongs,
+  songs,
+  setCurrentSong,
+  isPlaying,
+  updateLibraryHighlight,
+}) => {
   const songSelectHandler = () => {
-    const newSongs = songs.map((state) => {
-      //console.log(state.id, song.id);
-      if (state.id === song.id) {
-        return {
-          ...state,
-          active: true,
-        };
-      } else {
-        return {
-          ...state,
-          active: false,
-        };
-      }
-    });
-    setSongs(newSongs);
+    updateLibraryHighlight(song);
     setCurrentSong(song, (song.active = true));
   };
   return (
