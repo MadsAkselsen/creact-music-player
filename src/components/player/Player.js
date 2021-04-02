@@ -81,6 +81,15 @@ const Player = ({
   };
 
   const NextSong = () => {
+    //* the commented code is for cycling through the songs without reaching the end.
+    /* let currentIndex = songs.findIndex((song) => song.id === currentSong.id);
+    const songIndex = (currentIndex + 1) % songs.length;
+    setCurrentSong(songs[songIndex]);
+    if (currentIndex === songs.length - 2)
+      setFirstLastSong({ ...firstLastSong, lastSong: true });
+    if (currentIndex === 0)
+      setFirstLastSong({ ...firstLastSong, firstSong: false }); */
+
     for (let i = 0; i < songs.length; i++) {
       if (songs[i].id === currentSong.id && i < songs.length - 1) {
         setCurrentSong(songs[i + 1]);
