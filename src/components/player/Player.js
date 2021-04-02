@@ -140,6 +140,7 @@ const Player = ({
   useEffect(() => {
     updateLibraryHighlight(currentSong);
     setAudioLoaded(false);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSong]);
 
   return (

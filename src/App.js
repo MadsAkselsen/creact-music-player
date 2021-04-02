@@ -8,7 +8,6 @@ import Nav from './components/nav/Nav';
 import './app.scss';
 
 import data from './data';
-import { library } from '@fortawesome/fontawesome-svg-core';
 
 function App() {
   const [songs, setSongs] = useState(data());
