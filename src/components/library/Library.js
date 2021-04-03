@@ -1,5 +1,6 @@
 import React from 'react';
 import LibrarySong from './LibrarySong';
+import './_library.scss';
 
 const Library = ({
   songs,
