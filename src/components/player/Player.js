@@ -121,7 +121,6 @@ const Player = ({
       setSongInfo({ ...songInfo, currentTime: current, duration: duration });
       if (isPlaying) {
         audioRef.current.play();
-        console.log('playing2');
       }
       // check if first, last or in between in order to color the arrows.
       if (currentSong.id === songs[5].id) {
@@ -157,7 +156,6 @@ const Player = ({
   useEffect(() => {
     if (isPlaying) {
       audioRef.current.play();
-      console.log('playing3');
     } else {
       audioRef.current.pause();
     }
