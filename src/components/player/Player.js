@@ -48,7 +48,6 @@ const Player = ({
     const animationPercentageCalc = Math.round(
       (roundedCurrent / roundedDuration) * 100
     );
-    console.log(animationPercentageCalc);
     setSongInfo({
       ...songInfo,
       currentTime: current,
@@ -56,8 +55,8 @@ const Player = ({
       animationPercentage: animationPercentageCalc,
     });
 
-    if (isPlaying) {
-      audioRef.current.play();
+    if (current >= duration) {
+      NextSong();
     }
   };
 
