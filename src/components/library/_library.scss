@@ -27,7 +27,7 @@
     &:hover {
         background: rgb(200, 195, 209);
         .play-pause-icon {
-            opacity: 100%;
+            opacity: 1;
         }
     }
    
@@ -50,7 +50,7 @@
 }
 
 .playing {
-    opacity: 100%;
+    opacity: 1;
 }
 
 .song-description {
