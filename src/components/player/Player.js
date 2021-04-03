@@ -19,6 +19,7 @@ const Player = ({
   const [songInfo, setSongInfo] = useState({
     currentTime: 0,
     duration: 0,
+    animationPercentage: 0,
   });
 
   const [audioLoaded, setAudioLoaded] = useState(false);
@@ -41,7 +42,19 @@ const Player = ({
     }
     const current = e.target.currentTime;
     const duration = e.target.duration;
-    setSongInfo({ ...songInfo, currentTime: current, duration: duration });
+    // calculate percentage
+    const roundedCurrent = Math.round(current);
+    const roundedDuration = Math.round(duration);
+    const animationPercentageCalc = Math.round(
+      (roundedCurrent / roundedDuration) * 100
+    );
+    console.log(animationPercentageCalc);
+    setSongInfo({
+      ...songInfo,
+      currentTime: current,
+      duration: duration,
+      animationPercentage: animationPercentageCalc,
+    });
 
     if (isPlaying) {
       audioRef.current.play();
@@ -139,21 +152,35 @@ const Player = ({
 
   useEffect(() => {
     updateLibraryHighlight(currentSong);
+    setSongInfo({ ...songInfo, animationPercentage: 0 });
     setAudioLoaded(false);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [currentSong]);
 
+  // aad the styles
+  const trackAnim = {
+    transform: `translateX(${songInfo.animationPercentage}%)`,
+  };
   return (
     <div className="player">
       <div className="time-control">
         <p>{formatTime(songInfo.currentTime)}</p>
-        <input
-          type="range"
-          min={0}
-          max={songInfo.duration || 0}
-          value={songInfo.currentTime}
-          onChange={dragHandler}
-        ></input>
+        <div
+          className="track"
+          style={{
+            background: `linear-gradient(to right, ${currentSong.color[0]}, ${currentSong.color[1]})`,
+          }}
+        >
+          <input
+            type="range"
+            min={0}
+            max={songInfo.duration || 0}
+            value={songInfo.currentTime}
+            onChange={dragHandler}
+          ></input>
+          <div className="animate-track" style={trackAnim}></div>
+        </div>
+
         <p>{formatTime(songInfo.duration)}</p>
       </div>
       <div className="play-control">
