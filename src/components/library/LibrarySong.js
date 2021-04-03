@@ -13,11 +13,13 @@ const LibrarySong = ({
 }) => {
   const songSelectHandler = () => {
     updateLibraryHighlight(song);
-
+    console.log('1');
     if (!song.active || !isPlaying) {
+      console.log('2');
       setCurrentSong(song, (song.active = true));
       setIsPlaying(true);
     } else {
+      console.log('3');
       setIsPlaying(false);
     }
   };
